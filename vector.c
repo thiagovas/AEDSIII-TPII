@@ -81,7 +81,7 @@ int SizeVector(vector obj)
 
 /* Função que retorna se o vector esta vazio */
 int Empty(vector obj)
-{	return SizeVetor(obj) == 0;	}
+{	return SizeVector(obj) == 0;	}
 
 /* Método que limpa o vector. */
 void ClearVector(vector *obj)
@@ -94,12 +94,8 @@ void ClearVector(vector *obj)
 
 /* Função que retorna o valor do elemento de posição index do vector. */
 int At(vector *obj, int index)
-{
-	return obj->list[index].value;
-}
+{	return obj->list[index].value; }
 
 /* Método que edita o valor de um elemento do vector. */
 void EditItem(vector *obj, int index, int newValue)
-{
-	obj->list[index].value = newValue;
-}
+{	obj->list[index].value = newValue; }

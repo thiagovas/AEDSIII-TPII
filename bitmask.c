@@ -4,7 +4,7 @@
 
 #include "bitmask.h"
 
-/**/
+/* Função que verifica se bitmask não é nulo e se mask não é nulo. */
 int VerifyConsistency(bitmask *obj)
 {
 	if(obj == NULL) return 0;

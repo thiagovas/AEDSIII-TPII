@@ -4,14 +4,18 @@ CC=gcc
 
 all: build clearafter
 
-build: mainExato.o vector.o bitmask.o
-	$(CC) main.o graph.o vector.o heap.o pair.o queue.o -o tp1
+build: mainExato.o mainHeuristica.o vector.o bitmask.o input.o
+	$(CC) mainExato.o vector.o bitmask.o input.o -o tp2e -lm
+	$(CC) mainHeuristica.o vector.o input.o -o tp2h -lm
 
 mainHeuristica.o:
-	$(CC) -c mainHeuristica.c -o tp2h.o
+	$(CC) -c mainHeuristica.c -o mainHeuristica.o
 
-mainExato.o: bitmask.h
-	$(CC) -c mainExato.c -o tp2e.o
+mainExato.o: bitmask.h input.h
+	$(CC) -c mainExato.c -o mainExato.o
+
+input.o: vector.o
+	$(CC) -c input.c -o input.o
 
 bitmask.o: vector.h
 	$(CC) -c bitmask.c -o bitmask.o
