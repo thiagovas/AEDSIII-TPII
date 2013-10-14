@@ -74,11 +74,19 @@ vector SettedBits(bitmask obj)
 	return retorno;
 }
 
-/* Procedimento que seta o bit na posição index */
-void SetBit(bitmask *obj, int index)
+/* Função que seta o bit na posição index e retorna se o valor na posição index era 0. */
+int SetBit(bitmask *obj, int index)
 {
-	obj->numBits += (obj->mask[index] == 0 ? 1 : 0);
+	int retorno = 0;
+	
+	if(obj->mask[index] == 0)
+	{
+		obj->numBits += 1;
+		retorno = 1;
+	}
 	obj->mask[index] = 1;
+	
+	return retorno;
 }
 
 /* Retorna o valor de uma posição da máscara. */
@@ -87,6 +95,7 @@ int AtBitMask(bitmask obj, int index)
 	return obj.mask[index];
 }
 
+/* Método para printar o conteúdo do bitmask obj. */
 void PrintBitMask(bitmask obj)
 {
 	int i = 0;

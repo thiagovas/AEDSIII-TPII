@@ -12,7 +12,6 @@
 
 #define INF 2147000000
 
-
 int main(int argc, char* argv[])
 {
 	int i, numberTestCases = 0, j, k, menor = INF;
@@ -39,7 +38,7 @@ int main(int argc, char* argv[])
 		
 		while(!AddBitMask(&set))
 		{
-			possib = SettedBits(set);
+			possib = SettedBits(set); // Guardo em possib quais bits estão setados na máscara.
 			InitBitMask(&selected, Size(leitura[i]));
 			
 			for(j = 0; j < SizeVector(possib); j++)
@@ -52,6 +51,7 @@ int main(int argc, char* argv[])
 				/* END Setar todos os adjacentes a j*/
 			}
 			
+			// Se todos os amigos foram selecionados, então essa é uma possivel solução
 			if(BitCount(selected) == Size(leitura[i]))
 				if(menor > BitCount(set))
 					menor = BitCount(set);
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 			ClearVector(&possib);
 			ClearBitMask(&selected);
 		}
-		printf("%d\n", menor);
+		fprintf(foutput, "%d\n", menor);
 		ClearBitMask(&set);
 	}
 	

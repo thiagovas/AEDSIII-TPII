@@ -14,8 +14,10 @@ typedef struct{
 /* Função que verifica se bitmask não é nulo e se mask não é nulo. */
 int VerifyConsistency(bitmask *obj);
 
+/* Método para inicializar um bitmask com n posições e todas elas com 0. */
 void InitBitMask(bitmask *obj, int n);
 
+/* Método para limpar um bitmask, liberar a memória e zerar vaiáveis. */
 void ClearBitMask(bitmask *obj);
 
 /* Função que adiciona um no bitmask e retorna se o bitmask tem todas as posições setadas. */
@@ -30,9 +32,10 @@ vector SettedBits(bitmask obj);
 /* Retorna o valor de uma posição da máscara. */
 int AtBitMask(bitmask obj, int index);
 
-/* Procedimento que seta o bit na posição index */
-void SetBit(bitmask *obj, int index);
+/* Função que seta o bit na posição index e retorna se o valor na posição index era 0. */
+int SetBit(bitmask *obj, int index);
 
+/* Método para imprimir o conteúdo do bitmask. */
 void PrintBitMask(bitmask obj);
 
 #endif
