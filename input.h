@@ -33,6 +33,12 @@ vector ConvertStringToInt(char* string, int numberNodes);
 /* Função que imprime o input lido */
 void PrintInput(input *obj);
 
+/* Função que retorna a lista de adjacencia de um vértice. */
+vector listAdj(input obj, int index);
+
+/* Retorna numberNodes */
+int Size(input obj);
+
 /* Função usada para ordenar os vetores pelo tamanho */
 int compare(const void *a, const void *b);
 

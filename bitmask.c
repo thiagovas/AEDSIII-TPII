@@ -30,7 +30,8 @@ void ClearBitMask(bitmask *obj)
 	obj->size = 0;
 }
 
-void AddBitMask(bitmask *obj)
+/* Função que adiciona um no bitmask e retorna se o bitmask tem todas as posições setadas. */
+int AddBitMask(bitmask *obj)
 {
 	if(!VerifyConsistency(obj)) return;
 	
@@ -49,11 +50,34 @@ void AddBitMask(bitmask *obj)
 			obj->mask[i] = 1;
 			break;
 		}
+	
+	return obj->numBits == obj->size;
 }
 
+/* Função que retorna o número de bits  */
 int BitCount(bitmask obj)
 {
 	return obj.numBits;
+}
+
+/* Função que retorna uma lista com os bits que estão setados. */
+vector SettedBits(bitmask obj)
+{
+	int i = 0;
+	vector retorno;
+	
+	InitEmptyVector(&retorno);
+	for(i = 0; i < obj.size; i++)
+		if(obj.mask[i])
+			Push_back(&retorno, i);
+	
+	return retorno;
+}
+
+/* Retorna o valor de uma posição da máscara. */
+int AtBitMask(bitmask obj, int index)
+{
+	return obj.mask[index];
 }
 
 void PrintBitMask(bitmask obj)

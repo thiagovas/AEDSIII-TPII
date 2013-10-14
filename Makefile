@@ -8,10 +8,10 @@ build: mainExato.o mainHeuristica.o vector.o bitmask.o input.o
 	$(CC) mainExato.o vector.o bitmask.o input.o -o tp2e -lm
 	$(CC) mainHeuristica.o vector.o input.o -o tp2h -lm
 
-mainHeuristica.o:
+mainHeuristica.o: input.h vector.h
 	$(CC) -c mainHeuristica.c -o mainHeuristica.o
 
-mainExato.o: bitmask.h input.h
+mainExato.o: bitmask.h input.h vector.h
 	$(CC) -c mainExato.c -o mainExato.o
 
 input.o: vector.o

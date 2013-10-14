@@ -4,6 +4,19 @@
 
 #include "input.h"
 
+
+/* Retorna numberNodes */
+int Size(input obj)
+{
+	return obj.numberNodes;
+}
+
+/* Função que retorna a lista de adjacencia de um vértice. */
+vector listAdj(input obj, int index)
+{
+	return obj.obj[index];
+}
+
 /* Função que lê os casos de teste */
 input* ReadTestCases(FILE *stream)
 {
@@ -45,6 +58,7 @@ input* ReadTestCases(FILE *stream)
 			ClearVector(&line);
 		}
 	}
+	
 	return retorno;
 }
 
