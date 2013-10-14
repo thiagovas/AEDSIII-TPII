@@ -12,21 +12,11 @@
 
 #define INF 2147000000
 
-/* Método para inicializar o vetor usado no union-find */
-void InitUnionFind(int *f);
-
-/* Método que faz union entre a e b */
-void Union(int *f, int a, int b);
-int Find(int *f, int a);
-
-/* Função que verifica se  */
-int isSolution(int *f);
-
 
 int main(int argc, char* argv[])
 {
-	int i, numberTestCases = 0, j, *f, k, menor = INF;
-	bitmask set;
+	int i, numberTestCases = 0, j, k, menor = INF;
+	bitmask set, selected;
 	input *leitura;
 	vector possib, listAdjacencia;
 	FILE *finput, *foutput;
@@ -40,41 +30,36 @@ int main(int argc, char* argv[])
 	finput = fopen(argv[1], "r");
 	foutput = fopen(argv[2], "w");
 	
-	leitura = ReadTestCases(finput);
-	numberTestCases = sizeof(leitura)/sizeof(input);
+	leitura = ReadTestCases(finput, &numberTestCases);
 	
 	for(i = 0; i < numberTestCases; i++)
 	{
 		InitBitMask(&set, Size(leitura[i]));
-		menor = INF;
-		f = (int*)alloc(Size(leitura[i]), sizeof(int));
+		menor = Size(leitura[i]);
 		
 		while(!AddBitMask(&set))
 		{
-			
 			possib = SettedBits(set);
-			InitUnionFind(f);
-			for(j = 1; j < SizeVector(possib); j++)
+			InitBitMask(&selected, Size(leitura[i]));
+			
+			for(j = 0; j < SizeVector(possib); j++)
 			{
-				listAdjacencia = listAdj(leitura[i], j);
-				
-				/* BEGIN Unir todos os adjacentes a j */
+				listAdjacencia = listAdj(leitura[i], At(&possib, j));
+				SetBit(&selected, At(&possib, j));
+				/* BEGIN Setar todos os adjacentes a j */
 				for(k = 0; k < SizeVector(listAdjacencia); k++)
-					Union(f, At(&possib, j), At(&listAdjacencia, k));
-				/* END Unir todos os adjacentes a j*/
-				
-				Union(f, At(&possib, j-1), At(&possib, j));
+					SetBit(&selected, At(&listAdjacencia, k));
+				/* END Setar todos os adjacentes a j*/
 			}
 			
-			if(isSolution(f))
-				if(menor < BitCount(set))
+			if(BitCount(selected) == Size(leitura[i]))
+				if(menor > BitCount(set))
 					menor = BitCount(set);
 			
 			ClearVector(&possib);
+			ClearBitMask(&selected);
 		}
 		printf("%d\n", menor);
-		free(f);
-		f = NULL;
 		ClearBitMask(&set);
 	}
 	
@@ -86,29 +71,3 @@ int main(int argc, char* argv[])
 	fclose(foutput);
 	return 0;
 }
-
-void InitUnionFind(int *f)
-{
-	int i = 0;
-	for(i = 0; i < sizeof(f)/sizeof(int); i++)
-		f[i] = i;
-}
-
-void Union(int *f, int a, int b)
-{	f[Find(f, a)] = Find(f, b); }
-
-int Find(int *f, int a)
-{	return f[a] == a ? a : (f[a] = Find(f, f[a])); }
-
-int isSolution(int *f)
-{
-	int i = 0, resp = 1;
-	for(i = 1; i < sizeof(f)/sizeof(int); i++)
-		if(f[i] != f[i-1])
-		{
-			resp = 0;
-			break;
-		}
-	return resp;
-}
-

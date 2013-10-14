@@ -30,6 +30,9 @@ vector SettedBits(bitmask obj);
 /* Retorna o valor de uma posição da máscara. */
 int AtBitMask(bitmask obj, int index);
 
+/* Procedimento que seta o bit na posição index */
+void SetBit(bitmask *obj, int index);
+
 void PrintBitMask(bitmask obj);
 
 #endif

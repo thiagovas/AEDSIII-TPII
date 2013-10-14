@@ -19,7 +19,7 @@ typedef struct{
 
 
 /* Função que lê um caso de teste */
-input* ReadTestCases(FILE *stream);
+input* ReadTestCases(FILE *stream, int *n);
 
 /* Método que só dá um free na memória alocada para o input. */
 void ClearInput(input *obj);

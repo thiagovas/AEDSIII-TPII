@@ -18,42 +18,42 @@ vector listAdj(input obj, int index)
 }
 
 /* Função que lê os casos de teste */
-input* ReadTestCases(FILE *stream)
+input* ReadTestCases(FILE *stream, int *n)
 {
-	int i, j, number = 0;
-	input *retorno;
+	int i, j, number = 0, cont = 0;
+	input *retorno = NULL;
 	vector line;
 	
-	fscanf(stream, "%d", &number);
+	fscanf(stream, "%d", &number); // Number of test cases
 	retorno = (input*)alloc(number, sizeof(input));
-	
-	while(number-- > 0)
+	*n = number;
+	for(cont = 0; cont < number; cont++)
 	{
-		fscanf(stream, "%d", &retorno[number].numberNodes);
-		retorno[number].obj = (vector*)alloc(retorno[number].numberNodes, sizeof(vector));
+		fscanf(stream, "%d", &retorno[cont].numberNodes);
+		retorno[cont].obj = (vector*)alloc(retorno[cont].numberNodes, sizeof(vector));
 		
 		//Inicializar todos os vértices
-		for(i = 0; i < retorno[number].numberNodes; i++)
-			InitEmptyVector(&retorno[number].obj[i]);
+		for(i = 0; i < retorno[cont].numberNodes; i++)
+			InitEmptyVector(&retorno[cont].obj[i]);
 		
 		// Ler todas as linhas de um input
-		for(i = 0; i < retorno[number].numberNodes; i++)
+		for(i = 0; i < retorno[cont].numberNodes; i++)
 		{
-			line = ReadLine(retorno[number].numberNodes, stream);
+			line = ReadLine(retorno[cont].numberNodes, stream);
 			
 			if(Empty(&line))
 			{
 				i--;
 				continue;
 			}
-			//PrintVector(line);
+			
 			EditItem(&line, 0, At(&line, 0)-1);
 			//Ler todos os nodes de uma linha de um caso de teste
 			for(j = 1; j < SizeVector(line); j++)
 			{
 				EditItem(&line, j, At(&line, j)-1);
-				Push_back(&retorno[number].obj[At(&line, 0)], At(&line, j));
-				Push_back(&retorno[number].obj[At(&line, j)], At(&line, 0));
+				Push_back(&retorno[cont].obj[At(&line, 0)], At(&line, j));
+				Push_back(&retorno[cont].obj[At(&line, j)], At(&line, 0));
 			}
 			ClearVector(&line);
 		}

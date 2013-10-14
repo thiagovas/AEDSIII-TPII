@@ -10,9 +10,9 @@
 
 int main(int argc, char* argv[])
 {
-	int numberTestCases = 0;
+	int numberTestCases = 0, i = 0;
 	FILE *finput, *foutput;
-	input leitura;
+	input *leitura;
 	
 	if(argc != 3)
 	{
@@ -23,7 +23,12 @@ int main(int argc, char* argv[])
 	finput = fopen(argv[1], "r");
 	foutput = fopen(argv[2], "w");
 	
-	//numberTestCases = ReadNumberTestCases(finput);
+	leitura = ReadTestCases(finput, &numberTestCases);
+	
+	for(i = 0; i < numberTestCases; i++)
+	{
+		
+	}
 	
 	fclose(finput);
 	fclose(foutput);
