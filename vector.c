@@ -80,16 +80,21 @@ int SizeVector(vector obj)
 { return obj.sizeObj; }
 
 /* Função que retorna se o vector esta vazio */
-int Empty(vector obj)
-{	return SizeVector(obj) == 0;	}
+int Empty(vector *obj)
+{
+	if(obj == NULL) return 1;
+	if(obj->list == NULL) return 1;
+	return SizeVector(*obj) == 0;
+}
 
 /* Método que limpa o vector. */
 void ClearVector(vector *obj)
 {
+	if(obj == NULL) return;
+	if(obj->list == NULL) return;
 	obj->sizeObj = 0;
 	free(obj->list);
 	obj->list = NULL;
-	obj = NULL;
 }
 
 /* Função que retorna o valor do elemento de posição index do vector. */

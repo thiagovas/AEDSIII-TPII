@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <math.h>
 #include "vector.h"
 
@@ -17,17 +18,17 @@ typedef struct{
 } input;
 
 
-/* Função que lê o número de casos de teste */
-int ReadNumberTestCases();
-
 /* Função que lê um caso de teste */
-input ReadTestCase(FILE *stream);
+input* ReadTestCases(FILE *stream);
 
 /* Método que só dá um free na memória alocada para o input. */
 void ClearInput(input *obj);
 
 /* Função que lê uma linha de um caso de teste */
-int* ReadLine(int numberNodes, FILE *stream);
+vector ReadLine(int numberNodes, FILE *stream);
+
+/* Função que lê uma string e retorna um vector de ints. */
+vector ConvertStringToInt(char* string, int numberNodes);
 
 /* Função que imprime o input lido */
 void PrintInput(input *obj);

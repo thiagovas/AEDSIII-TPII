@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 	finput = fopen(argv[1], "r");
 	foutput = fopen(argv[2], "w");
 	
-	numberTestCases = ReadNumberTestCases(finput);
+	//numberTestCases = ReadNumberTestCases(finput);
 	
 	fclose(finput);
 	fclose(foutput);

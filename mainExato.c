@@ -25,27 +25,27 @@ int main(int argc, char* argv[])
 	finput = fopen(argv[1], "r");
 	foutput = fopen(argv[2], "w");
 	
-	numberTestCases = ReadNumberTestCases(finput);
+	ReadTestCases(finput);
 	
+	//numberTestCases = ReadNumberTestCases(finput);
 	
-	while(numberTestCases-- > 0)
-	{
-		leitura = ReadTestCase(finput);
-		PrintInput(&leitura);
-		ClearInput(&leitura);
-	}
-	
+	//while(numberTestCases-- > 0)
+	//{
+	//	leitura = ReadTestCase(finput);
+	//	PrintInput(&leitura);
+		/*
+		InitBitMask(&set, 20);
 		
-	/*
-	InitBitMask(&set, 20);
+		for(i = 0; i < 20; i++)
+		{
+			PrintBitMask(set);
+			AddBitMask(&set);
+		}
+		ClearBitMask(&set);
+		*/
+	//	ClearInput(&leitura);
+	//}
 	
-	for(i = 0; i < 20; i++)
-	{
-		PrintBitMask(set);
-		AddBitMask(&set);
-	}
-	ClearBitMask(&set);
-	*/
 	
 	fclose(finput);
 	fclose(foutput);

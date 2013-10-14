@@ -44,7 +44,7 @@ void PrintVector(vector obj);
 int SizeVector(vector obj);
 
 /* Função que retorna se o vector esta vazio */
-int Empty(vector obj);
+int Empty(vector *obj);
 
 /* Método que limpa o vector. */
 void ClearVector(vector *obj);

@@ -4,84 +4,96 @@
 
 #include "input.h"
 
-/* Função que lê o número de casos de teste */
-int ReadNumberTestCases(FILE *stream)
+/* Função que lê os casos de teste */
+input* ReadTestCases(FILE *stream)
 {
-	int number;
+	int i, j, number = 0;
+	input *retorno;
+	vector line;
+	
 	fscanf(stream, "%d", &number);
-	return number;
-}
-
-/* Função que lê um caso de teste */
-input ReadTestCase(FILE *stream)
-{
-	int i, j;
-	input retorno;
-	int *line = NULL;
+	retorno = (input*)alloc(number, sizeof(input));
 	
-	
-	fscanf(stream, "%d", &retorno.numberNodes);
-	retorno.obj = (vector*)alloc(retorno.numberNodes, sizeof(vector));
-	
-	//Inicializar todos os vértices
-	for(i = 0; i < retorno.numberNodes; i++)
-		InitEmptyVector(&retorno.obj[i]);
-	
-	// Ler todas as linhas de um input
-	for(i = 0; i < retorno.numberNodes; i++)
+	while(number-- > 0)
 	{
-		line = ReadLine(retorno.numberNodes, stream);
-		line[0] -= 1;
-		//Ler todos os nodes de uma linha de um caso de teste
-		for(j = 1; j < sizeof(line)/sizeof(line[0]); j++)
-		{
-			line[j] -= 1;
-			Push_back(&retorno.obj[line[0]], line[j]);
-			Push_back(&retorno.obj[line[j]], line[0]);
-		}
+		fscanf(stream, "%d", &retorno[number].numberNodes);
+		retorno[number].obj = (vector*)alloc(retorno[number].numberNodes, sizeof(vector));
 		
-		free(line);
+		//Inicializar todos os vértices
+		for(i = 0; i < retorno[number].numberNodes; i++)
+			InitEmptyVector(&retorno[number].obj[i]);
+		
+		// Ler todas as linhas de um input
+		for(i = 0; i < retorno[number].numberNodes; i++)
+		{
+			line = ReadLine(retorno[number].numberNodes, stream);
+			
+			if(Empty(&line))
+			{
+				i--;
+				continue;
+			}
+			//PrintVector(line);
+			EditItem(&line, 0, At(&line, 0)-1);
+			//Ler todos os nodes de uma linha de um caso de teste
+			for(j = 1; j < SizeVector(line); j++)
+			{
+				EditItem(&line, j, At(&line, j)-1);
+				Push_back(&retorno[number].obj[At(&line, 0)], At(&line, j));
+				Push_back(&retorno[number].obj[At(&line, j)], At(&line, 0));
+			}
+			ClearVector(&line);
+		}
 	}
 	return retorno;
 }
 
-/* Método que só dá um free na memória alocada para o input. */
-void ClearInput(input *obj)
+/* Função que lê uma string e retorna um vector de ints. */
+vector ConvertStringToInt(char* string, int numberNodes)
 {
-	free(obj->obj);
+	vector retorno;
+	char *pch = NULL;
+	int i = 0, k = 0, tam = 0;
+	
+	InitEmptyVector(&retorno);
+	pch = strtok(string, " ");
+	while(pch != NULL)
+	{
+		tam = sizeof(pch)/sizeof(char);
+		Push_back(&retorno, 0);
+		for(i = 0; i < tam; i++)
+		{
+			if(pch[i] == '\0' || pch[i] == 10) break;
+			EditItem(&retorno, k, At(&retorno, k)*pow(10, i) + pch[i]-'0');
+		}
+		pch = strtok(NULL, " ");
+		k++;
+	}
+	return retorno;
 }
 
 /* Função que lê uma linha de um caso de teste */
-int* ReadLine(int numberNodes, FILE *stream)
+vector ReadLine(int numberNodes, FILE *stream)
 {
-	char *strInput = (char*)alloc(2*numberNodes, sizeof(char));
+	char *strInput = (char*)alloc(4*numberNodes, sizeof(char));
 	char *pch = NULL;
-	int i = 0, *line = (int*)alloc(numberNodes, sizeof(int)), j = 0, k = 0, temp = 0;
-	fgets(strInput, 2*numberNodes, stream);
+	int i = 0, j = 0, k = 0, temp = 0;
+	vector retorno;
 	
-	for(i = 0; i < 2*numberNodes; i++)
+	InitEmptyVector(&retorno);
+	fgets(strInput, 4*numberNodes, stream);
+	
+	//Caso fgets ler algum lixo, ReadLine retorna NULL.
+	if(strlen(strInput) < 2 && !isdigit(strInput[0]))
 	{
-		if(strInput[i] == '\0') break; // Se for fim de linha, o loop é interrompido.
-		if(strInput[i] == 32)
-		{
-			line[k++] = temp;
-			j = 0, temp = 0;
-			continue;
-		}
-		else if(strInput[i] < 48 || strInput[i] > 57)
-		{
-			continue;
-		}
-		
-		temp = pow(10, j)*temp + (strInput[i]-'0');
-		j++;
+		free(strInput);
+		return retorno;
 	}
-	if(temp != 0)
-		line[k] = temp;
-
+	
+	retorno = ConvertStringToInt(strInput, numberNodes);
 	free(strInput);
 	
-	return line;
+	return retorno;
 }
 
 /* Função que imprime o input lido */
@@ -89,10 +101,18 @@ void PrintInput(input *obj)
 {
 	int i = 0;
 	for(i = 0; i < obj->numberNodes; i++)
-	{
 		PrintVector(obj->obj[i]);
-		printf("\n");
-	}
+}
+
+/* Método que só dá um free na memória alocada para o input. */
+void ClearInput(input *obj)
+{
+	int i = 0;
+	for(i = 0; i < obj->numberNodes; i++)
+		ClearVector(&obj->obj[i]);
+	free(obj->obj);
+	obj->obj = NULL;
+	obj->numberNodes = 0;
 }
 
 /* Função usada para ordenar os vetores pelo tamanho */
